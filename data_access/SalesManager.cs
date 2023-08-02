@@ -68,9 +68,22 @@ namespace data_access
             command.ExecuteNonQuery();
         }
 
-    //    public void ShowLeaderSeller()
-    //    {
-    //        string cmd = $""
-    //    }
-    //}
+        public void ShowLastPurchase(string name, string surname)
+        {
+            string cmd = $"select * from Sales as s JOIN Customers as c ON s.CustomerId = c.Id where c.Name = @name and c.Surname = @surname order by s.Date desc";
+            SqlCommand command = new SqlCommand (cmd, connection);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@surname", surname);
+            command.ExecuteNonQuery();
+        }
+
+        public void ShowLeaderSeller(string name, string surname)
+        {
+            string cmd = $"select sl.Name, sl.Surname, SUM(s.Amount) as TotalAmount from Sellers as sl JOIN Sales as s ON s.SellerId = sl.Id where sl.Name = @name and sl.Surname = @surname group by sl.Name, sl.Surname order by TotalAmount desc";
+            SqlCommand command =new SqlCommand (cmd, connection);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@surname", surname);
+            command.ExecuteNonQuery();
+        }
+    }
 }

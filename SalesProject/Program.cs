@@ -10,5 +10,6 @@ internal class Program
         SalesManager m = new();
 
         m.ShowAllSales(new DateOnly(2000, 1, 1), new DateOnly(2020, 1, 1));
+       
     }
 }
